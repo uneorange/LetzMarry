@@ -115,14 +115,18 @@
 
   <!-- ✅ JavaScript at the end -->
   <script>
+    function isIOS() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+  
     function openPDF(file) {
-      // iPhone & iOS Safari → open directly
-      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      if (isIOS()) {
+        // iOS Safari cannot embed PDFs reliably
         window.location.href = file;
         return;
       }
-
-      // Desktop → show PDF viewer
+  
+      // Android + Desktop → embed directly
       document.getElementById("languageScreen").style.display = "none";
       document.getElementById("viewerContainer").style.display = "block";
       document.getElementById("viewer").src = file;
