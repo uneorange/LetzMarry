@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Einladung</title>
+  <title>Select Language</title>
 
   <style>
     body {
@@ -12,54 +12,71 @@
       background: #f5f7fa;
     }
 
-    /* Top button bar */
-    .toolbar {
+    /* Centered language selector */
+    .language-screen {
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      gap: 18px;
-      padding: 28px;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      align-items: center;
+      height: 100vh;
+      gap: 24px;
+    }
+
+    .language-screen h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .pdf-btn {
       font-size: 20px;
       font-weight: 600;
-      padding: 16px 32px;
-      border-radius: 12px;
+      padding: 18px 36px;
+      border-radius: 14px;
       border: none;
       cursor: pointer;
-      background: linear-gradient(135deg, #16a34a, #15803d);
       color: white;
-      box-shadow: 0 6px 16px rgba(182, 215, 168, 0.35);
-      transition: transform 0.15s ease,
-                  box-shadow 0.15s ease,
-                  background 0.15s ease;
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .pdf-btn span.flag {
-      font-size: 26px; /* makes flags stand out */
-      line-height: 1;
+      gap: 12px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .pdf-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(182, 215, 168, 0.45);
-      background: linear-gradient(135deg, #15803d, #166534);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.25);
     }
 
-    .pdf-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    /* Country colors */
+    .germany {
+      background: linear-gradient(135deg, #a3b18a, #8f9f79);
+    }
+
+    .luxembourg {
+      background: linear-gradient(135deg, #a3b18a, #8f9f79);
+    }
+
+    .france {
+      background: linear-gradient(135deg, #a3b18a, #8f9f79);
+    }
+
+    /* PDF viewer (hidden initially) */
+    .viewer-container {
+      display: none;
+      height: 100vh;
     }
 
     iframe {
       width: 100%;
-      height: calc(100vh - 150px);
+      height: 100%;
       border: none;
       background: #e5e7eb;
     }
@@ -68,38 +85,47 @@
 
 <body>
 
-  <div class="toolbar">
-    <button class="pdf-btn" onclick="openPDF('Einladung.pdf')">
-      <span class="flag">🇩🇪</span> Deutsch
-    </button>
 
-    <button class="pdf-btn" onclick="openPDF('Einladung_Lux.pdf')">
-      <span class="flag">🇱🇺</span> Lëtzebuergesch
-    </button>
+  <!-- Language selection screen -->
+  <div id="languageScreen" class="language-screen">
+    <h1>Select language</h1>
 
-    <button class="pdf-btn" onclick="openPDF('Einladung_Fra.pdf')">
-      <span class="flag">🇫🇷</span> Français
-    </button>
+    <div class="buttons">
+      <button class="pdf-btn germany"
+              onclick="openPDF('Einladung.pdf')">
+        🇩🇪 Deutsch
+      </button>
+
+      <button class="pdf-btn luxembourg"
+              onclick="openPDF('Einladung_Lux.pdf')">
+        🇱🇺 Lëtzebuergesch
+      </button>
+
+      <button class="pdf-btn france"
+              onclick="openPDF('Einladung_Fra.pdf')">
+        🇫🇷 Français
+      </button>
+    </div>
   </div>
 
-  <iframe id="viewer" src="Einladung.pdf"></iframe>
+  <!-- PDF viewer -->
+  <div id="viewerContainer" class="viewer-container">
+    <iframe id="viewer"></iframe>
+  </div>
 
+  <!-- ✅ JavaScript at the end -->
   <script>
     function openPDF(file) {
-      document.getElementById("viewer").src = file;
-    }
-  </script>
-
-  
-  <script>
-    function openPDF(file) {
+      // iPhone & iOS Safari → open directly
       if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        // iOS → open PDF directly
         window.location.href = file;
-      } else {
-        // Desktop → embedded viewer
-        document.getElementById("viewer").src = file;
+        return;
       }
+
+      // Desktop → show PDF viewer
+      document.getElementById("languageScreen").style.display = "none";
+      document.getElementById("viewerContainer").style.display = "block";
+      document.getElementById("viewer").src = file;
     }
   </script>
 
