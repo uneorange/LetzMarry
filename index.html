@@ -90,5 +90,18 @@
     }
   </script>
 
+  
+  <script>
+    function openPDF(file) {
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // iOS → open PDF directly
+        window.location.href = file;
+      } else {
+        // Desktop → embedded viewer
+        document.getElementById("viewer").src = file;
+      }
+    }
+  </script>
+
 </body>
 </html>
